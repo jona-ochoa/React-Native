@@ -10,12 +10,12 @@ const GoalItem = (props) => {
     </TouchableOpacity>
   );
 };
-
+   
 const styles = StyleSheet.create({
   listItem: {
     padding: 10,
     marginVertical: 10,
-    backgroundColor: "#ccc",
+    backgroundColor: "#cccccc",
     borderColor: "black",
     borderWidth: 1,
     alignItems: 'center'
