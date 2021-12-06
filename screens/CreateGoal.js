@@ -1,25 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { StyleSheet, ScrollView, FlatList, Button } from "react-native";
-import db from "../database/firebase";
-import { collection, getDocs } from "firebase/firestore";
 
 import GoalInput from "../components/GoalInput";
 import GoalItem from "../components/GoalItem";
 
-const CreateGoal= () => {
-  
-  useEffect(() => {
-
-    const dateAdd = async () => {
-      const date = await getDocs(collection(db, 'users'));
-      date.forEach((document) => {
-        console.log(document.data());
-      });
-    }
-    dateAdd();
-  }, []);
-  
-
+const CreateGoal = () => {
   const [courseGoals, setCourseGoals] = useState([]);
   const [isAddMode, setIsAddMode] = useState(false);
 

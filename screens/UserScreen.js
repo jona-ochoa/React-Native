@@ -7,13 +7,31 @@ import {
   KeyboardAvoidingView,
   TouchableOpacity,
 } from "react-native";
+import { db } from "../database/firebase";
+import { doc, setDoc } from "firebase/firestore/lite";
 
-const UserScreen = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+const UserScreen = (props) => {
+  const [state, setState] = useState({
+    name: "",
+    email: "",
+    phone: "",
+  });
 
-  const handleSingUp = () => {
-    console.log(name);
+  const handleChangeText = (name, value) => {
+    setState({ ...state, [name]: value });
+  };
+
+  const SaveNewUser = async () => {
+    if (state.name === "") {
+      alert("Please provide a name");
+    } else {
+      await setDoc(doc(db, "users", "Ramdom_Doc"), {
+        name: state.name,
+        email: state.email,
+        phone: state.phone,
+      });
+      props.navigation.navigate("CreateGoal");
+    }
   };
 
   return (
@@ -22,21 +40,25 @@ const UserScreen = () => {
         <TextInput
           style={styles.input}
           placeholder="NAME USER"
-          value={name}
-          onChangeText={(text) => setName(text)}
+          onChangeText={(value) => handleChangeText("name", value)}
         />
       </View>
       <View style={styles.inputGroup}>
         <TextInput
           style={styles.input}
           placeholder="EMAIL USER"
-          value={email}
-          onChangeText={(text) => setEmail(text)}
+          onChangeText={(value) => handleChangeText("email", value)}
         />
       </View>
-
+      <View style={styles.inputGroup}>
+        <TextInput
+          style={styles.input}
+          placeholder="PHONE USER"
+          onChangeText={(value) => handleChangeText("phone", value)}
+        />
+      </View>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity onPress={handleSingUp} style={styles.button}>
+        <TouchableOpacity onPress={SaveNewUser} style={styles.button}>
           <Text style={styles.buttonText}>SAVE USER</Text>
         </TouchableOpacity>
       </View>
@@ -61,7 +83,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 8,
     marginTop: 10,
-    borderColor: "#0782f9",
+    borderColor: "#025893",
   },
   button: {
     width: "100%",
@@ -71,14 +93,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   buttonContainer: {
-    backgroundColor: "#0782f9",
+    backgroundColor: "#025893",
     width: "50%",
     borderRadius: 10,
     marginTop: 15,
   },
   buttonText: {
     alignItems: "center",
-    color: "#ffffff",
+    color: "#fff",
+    fontWeight: 700
   },
 });
 
